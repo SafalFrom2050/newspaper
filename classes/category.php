@@ -6,7 +6,15 @@ class Category{
     //Required
     public $name;
     //
-    
+
+    public function __construct($category_id, $name) {
+        $this->category_id = $category_id;
+        $this->name = $name;
+    }
+
+    public function getName(){
+        return $this->name;
+    }
 
     public function createCategory($name){
         $this->name = $name;

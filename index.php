@@ -1,22 +1,29 @@
 <?php
     session_start();
+    include 'functions/checks.php';
+    include 'utils/auth_check.php';
     include 'header.php';
-    include 'functions/check.php';
+?>
+
+<main>
+	<nav>
+		<ul>
+            <?php
+                 $isAdmin =isCurrentUserAdmin();
+                 if($isAdmin){
+                     echo '<li><a href="/admin">Admin Panel</a></li>';
+                 }
+            ?>
+			
+		</ul>
+	</nav>
+    <article>
+    	<h2>Home</h2>
+		<p>Featured articles</p>
+	</article>
+</main>
 
 
-    if($_SESSION['logged_in']){
-        load();
-    }else{
-        header("Location: account/login.php");
-        die();
-    }
-
-
-    function load(){
-        echo '<h1>You are logged in...</h1>';
-        echo 'Is Admin: '.isCurrentUserAdmin();
-        
-    }
-
+<?php
     include 'footer.php';
 ?>

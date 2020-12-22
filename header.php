@@ -1,3 +1,8 @@
+<?php
+    include ('functions/get.php');
+	include ('classes/category.php');
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,9 +21,15 @@
 				<li><a href="#">Latest Articles</a></li>
 				<li><a href="#">Select Category</a>
 					<ul>
-						<li><a href="#">Category 1</a></li>
-						<li><a href="#">Category 2</a></li>
-						<li><a href="#">Category 3</a></li>
+					<br>
+						<?php
+							$categories = array();
+							$categories = getListOfCategories();
+
+							foreach($categories as $category){
+								echo '<li><a href="?navigate='.$category->category_id.'">'.($category->getName()).'</a></li>';
+							}
+						?>
 					</ul>
 				</li>
 				<li><a href="contact.php">Contact us</a></li>

@@ -1,5 +1,8 @@
 <?php
-include ('utils/database_connection.php');
+$path = $_SERVER['DOCUMENT_ROOT'];
+$path .= '/utils/database_connection.php';
+
+include ($path);
 
 function isCurrentUserAdmin(){
     $user_id = $_SESSION['user_id'];
