@@ -7,9 +7,25 @@ class Category{
     public $name;
     //
 
-    public function __construct($category_id, $name) {
-        $this->category_id = $category_id;
-        $this->name = $name;
+    public function __construct() {
+        
+    }
+
+    public static function withID($category_id){
+        $instance = new self();
+        $instance->category_id = $category_id;
+        return $instance;
+    }
+    public static function withName($name){
+        $instance = new self();
+        $instance->name = $name;
+        return $instance;
+    }
+    public static function fromDB($row){
+        $instance = new self();
+        $instance->name = $row['name'];
+        $instance->category_id = $row['category_id'];
+        return $instance;
     }
 
     public function getName(){
@@ -26,6 +42,22 @@ class Category{
         $this->name = $name;
         
         // TODO
+    }
+
+    function getId(){
+        $pdo = createDatabaseConnection();
+    
+        $sql = 'SELECT * FROM `categories` WHERE name=:name';
+
+        $stmp = $pdo->prepare($sql);
+    
+        $criteria = ['name' => $this->name];
+
+        $stmp->execute($criteria);
+    
+        $category_id = $stmp->fetch(PDO::FETCH_ASSOC);
+
+        return $category_id['category_id'];
     }
 }
 

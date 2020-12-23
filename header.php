@@ -1,5 +1,5 @@
 <?php
-    include ('functions/get.php');
+    include ('functions/read.php');
 	include ('classes/category.php');
 ?>
 
@@ -7,6 +7,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="styles.css"/>
+		<link rel="stylesheet" href="style_overrides.css">
 		<title>Northampton News - Home</title>
 	</head>
 	<body>
