@@ -1,15 +1,13 @@
 <?php
     include 'header.php';
-    include ('../functions/read.php');
-    include ('../classes/category.php');
-    include ('../classes/article.php');
 ?>
 
 <?php
 
 function display_create_post(){
+    $categoryObj = new Category();
     $categories = array();
-    $categories = getListOfCategories();
+    $categories = $categoryObj->getListOfCategories();
 
     $categories_template = '';
     foreach($categories as $category){
@@ -68,7 +66,7 @@ if(isset($_POST['submit'])){
 
     $article = Article::fromParameters($title, $user_id, $body, $image_url, $category_id, $is_published);
 
-    postArticle($article);
+    $article->postArticle();
 
     echo '<h1>Your post has been added!</h1><br><br>'.
             '<h2 style = "text-align:center;"><a href="/admin/create-story.php">Add New</a></h2>';

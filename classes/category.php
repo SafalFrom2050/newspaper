@@ -1,6 +1,6 @@
 <?php
 
-class Category{
+class Category extends Database{
     public $category_id;
 
     //Required
@@ -44,20 +44,48 @@ class Category{
         // TODO
     }
 
-    function getId(){
-        $pdo = createDatabaseConnection();
-    
-        $sql = 'SELECT * FROM `categories` WHERE name=:name';
+    public function getId(){
 
-        $stmp = $pdo->prepare($sql);
+        $sql = 'SELECT * FROM `categories` WHERE name=:name';
     
         $criteria = ['name' => $this->name];
 
-        $stmp->execute($criteria);
+        $stmp = $this->executeWithCriteria($sql, $criteria);
     
         $category_id = $stmp->fetch(PDO::FETCH_ASSOC);
 
         return $category_id['category_id'];
+    }
+
+    public function getListOfCategories(){
+
+        $sql = 'SELECT * FROM `categories`';
+    
+        $stmp = $this->executeSql($sql);
+    
+        $categories = array();
+        foreach($stmp as $row){
+            $category = Category::fromDB($row);
+            $categories[] = $category;
+        }
+    
+        return $categories;
+    }
+
+    public function getCategoryFromId($category_id){
+    
+        $sql = 'SELECT * FROM `categories` WHERE category_id=:category_id';
+    
+        $criteria = [
+            'category_id' => $category_id
+        ];
+
+        $stmp = $this->executeWithCriteria($sql, $criteria);
+    
+        $row = $stmp->fetch();
+        $category = Category::fromDB($row);
+
+        return $category;
     }
 }
 

@@ -1,12 +1,14 @@
 <?php
 	//TODO
     session_start();
-    include '../functions/checks.php';
-    include '../functions/write.php';
-
+	include ('../classes/database.php');
+	include ('../classes/user.php');
+	include ('../classes/article.php');
+	include ('../classes/category.php');
     include '../utils/auth_check.php';
 
-    $isAdmin =isCurrentUserAdmin();
+	$user = new User();
+    $isAdmin = $user->isAdmin();
     if(!$isAdmin){
         header("Location: /");
         die();
@@ -29,6 +31,22 @@
 		<nav>
 			<ul>
 				<li><a href="/">Home</a></li>
+				<li><a href="#">Latest Articles</a></li>
+				<li><a href="#">Select Category</a>
+					<ul>
+					<br>
+						<?php
+							$categoryObj = new Category();
+							$categories = array();
+							$categories = $categoryObj->getListOfCategories();
+
+							foreach($categories as $category){
+								echo '<li><a href="?navigate='.$category->category_id.'">'.($category->getName()).'</a></li>';
+							}
+						?>
+					</ul>
+				</li>
+				<li><a href="contact.php">Contact us</a></li>
 			</ul>
 		</nav>
 

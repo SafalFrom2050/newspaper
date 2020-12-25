@@ -1,6 +1,9 @@
 <?php
-    include ('functions/read.php');
+	include ('classes/database.php');
+	include ('classes/user.php');
 	include ('classes/category.php');
+	include ('classes/article.php');
+    include 'utils/auth_check.php';
 ?>
 
 <!DOCTYPE html>
@@ -19,13 +22,14 @@
 		<nav>
 			<ul>
 				<li><a href="/">Home</a></li>
-				<li><a href="#">Latest Articles</a></li>
+				<li><a href="?sort-by=1">Latest Articles</a></li>
 				<li><a href="#">Select Category</a>
 					<ul>
 					<br>
 						<?php
+							$categoryObj = new Category();
 							$categories = array();
-							$categories = getListOfCategories();
+							$categories = $categoryObj->getListOfCategories();
 
 							foreach($categories as $category){
 								echo '<li><a href="?navigate='.$category->category_id.'">'.($category->getName()).'</a></li>';

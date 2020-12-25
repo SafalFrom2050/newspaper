@@ -1,28 +1,23 @@
 <?php
 
 session_start();
-
-include ('../utils/database_connection.php');
-
-$pdo = createDatabaseConnection();
+include ('../classes/database.php');
+include ('../classes/user.php');
+$user = new User();
 
 if(isset($_POST['username'])){
-    $stmp = $pdo->prepare('SELECT * FROM users WHERE username = :username');
+    
+    $user = $user->verifyUserCredentials($_POST['username'], $_POST['password']);
 
-    $criteria = [
-        'username' => $_POST['username']
-    ];
-
-    $stmp->execute($criteria);
-
-    $user = $stmp->fetch();
-
-    if(password_verify($_POST['password'], $user['password'])){
+    if(!is_null($user)){
         $_SESSION['logged_in'] = true;
-        $_SESSION['user_id'] = $user['user_id'];
-        echo '<h1>Heyyyy '.$user['name'].'</h1>';
-        echo '<a href=/>Home</a>';
-    }else{
+        $_SESSION['user_id'] = $user->user_id;
+
+        echo '<h1>Redirecting to the homepage</h1>';
+        
+        header("Location: /");
+        die();
+    }else{;
         echo '<h1>Check your email/password...</h1>';
         echo '<a href=login.php>Try Again</a>';
     }

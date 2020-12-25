@@ -1,13 +1,27 @@
+nav > ul > li > form > label,
 nav > h3 {
   color: white;
+  padding: 0;
   margin-bottom: 1rem;
 
   text-decoration: underline yellow 1px;
   text-underline-offset: 6px;
+  width: fit-content;
 }
 
 nav > ul {
   margin-bottom: 2rem;
+}
+
+nav > ul > li > form {
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+nav > ul > form select {
+  margin: 0;
+  float: left;
 }
 
 form textarea {
@@ -20,7 +34,8 @@ form input[type="checkbox"] {
   width: 1.5rem;
 }
 
-h2 a {
+h2 > a,
+h3 > a {
   text-decoration: none;
   color: #444;
   font-size: small;
@@ -30,8 +45,20 @@ h2 a {
   margin-right: 12px;
   vertical-align: middle;
 }
+h3 > a {
+  margin-left: 12px;
+  font-size: x-small;
+  border: none;
+  float: right;
+}
 
-h2 a:hover {
+h2 a:hover,
+h3 a:hover {
   background: #444;
   color: white;
+}
+
+.post-preview {
+  padding-top: 1rem;
+  border-top: 1px dashed #666;
 }
