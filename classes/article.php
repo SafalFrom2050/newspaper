@@ -58,8 +58,6 @@ class Article extends Database{
 
     const SORT_BY_LATEST = 1, SORT_DEFAULT = 0;
     public function getListOfArticles($sort_by = self::SORT_DEFAULT){
-        
-    
         if($sort_by==self::SORT_BY_LATEST){
             $sql = 'SELECT * FROM `articles` ORDER BY post_datetime DESC';    
         }else if($sort_by==self::SORT_DEFAULT){

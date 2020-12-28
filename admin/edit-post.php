@@ -26,7 +26,7 @@ function display_edit_post(){
     $edit_post_template = ('
         <article>
             <h2>
-                <a href="/admin">Back</a>
+                <a href="/admin/posts.php">Back</a>
                 Edit Story
             </h2>
             <form method="post">

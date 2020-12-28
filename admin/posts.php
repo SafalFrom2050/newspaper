@@ -19,7 +19,7 @@
                     '<a href="/admin/edit-post.php?article_id='.$article->article_id.'">Edit</a>
                   </h3>';
 
-            echo '<i>'.$article->category_id.'</i>';
+            // echo '<i>'.$article->category_id.'</i>';
             echo '<i>'.$article->post_datetime.'</i><br>';
             
             echo '<a href="user/id?='.$article->author.'">'.($article->author).'</a><br><br>';

@@ -49,6 +49,13 @@ class User extends Database{
         }
     }
 
+    public function isLoggedIn(){
+        if(!$_SESSION['logged_in']){
+            return false;
+        }
+        return true;
+    }
+
     public function isAdmin(){
         $user_id = $this->user_id;
     

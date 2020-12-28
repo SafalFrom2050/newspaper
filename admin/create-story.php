@@ -21,12 +21,12 @@ function display_create_post(){
                 <a href="/admin">Back</a>
                 Add New Story
             </h2>
-            <form method="post">
+            <form method="POST" enctype="multipart/form-data">
 
                 <label>Title</label> <input type="text" name="title" placeholder="Article Heading"/>
                 <label>Body</label> <textarea name="body" placeholder="Start writing your awesome article!"></textarea>
 
-                <label>Add Image</label> <input type="file" />
+                <label>Add Image</label> <input name="image" type="file" />
                 <label>Category</label>
 
                 <input list="categories" name="category" id="category">
@@ -55,8 +55,9 @@ if(isset($_POST['submit'])){
     
     $body = $_POST['body'];
 
-    //TODO Upload image and get the url
-    $image_url = '    ';
+    
+    // Upload image and get the url
+    $image_url = handleImageUpload();
     
     $category = Category::withName($_POST['category']);
 
@@ -74,6 +75,51 @@ if(isset($_POST['submit'])){
     display_create_post();
 }
 
+
+function handleImageUpload(){
+    if(isset($_FILES['image'])){
+        $errors= array();
+        $file_name = $_FILES['image']['name'];
+        $file_size = $_FILES['image']['size'];
+        $file_tmp = $_FILES['image']['tmp_name'];
+        $file_type = $_FILES['image']['type'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        
+        $extensions= array("jpeg","jpg","png");
+        
+        if(in_array($file_ext, $extensions)=== false){
+           $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+        }
+        
+        if($file_size > 2097152) {
+           $errors[]='File size must be below 2 MB';
+        }
+        
+        if(empty($errors)==true) {
+            $path = '/uploads/images/';
+
+            $file_name_new = $file_name;
+            $count = 0;
+            // If filename already exists, append the file count
+            while(file_exists('..'.$path.$file_name_new)){
+                $file_name_new = $file_name;
+                $count += 1;
+                $name_only = pathinfo($file_name_new, PATHINFO_FILENAME);
+
+                // Renames duplicates like filename(1).png, filename(2).png...
+                $file_name_new = $name_only.'('.$count.').'.$file_ext;       
+            }
+
+            move_uploaded_file($file_tmp, '..'.$path.$file_name_new);
+           // Success
+           $imageUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$path.$file_name_new;
+           return $imageUrl;
+        }else{
+           print_r($errors);
+           return '';
+        }
+    }
+}
 
 ?>
 

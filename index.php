@@ -57,9 +57,11 @@
 
             foreach($articles as $article){
 
-                echo '<h3>'.$article->title.'</h3>';
+                echo '<a href=/article?id='.$article->article_id.'>
+                            <h3>'.$article->title.'</h3>
+                            </a><br>';
 
-                echo '<i>'.$article->category_id.'</i>';
+                // echo '<i>'.$article->category_id.'</i>';
                 echo '<i>'.$article->post_datetime.'</i><br>';
                 
                 echo '<a href="user/id?='.$article->author.'">'.($article->author).'</a><br><br>';
