@@ -11,6 +11,7 @@
 	<head>
 		<link rel="stylesheet" href="styles.css"/>
 		<link rel="stylesheet" href="style_overrides.css">
+		<link rel="stylesheet" href="style_addons.css">
 		<title>Northampton News - Home</title>
 	</head>
 	<body>
@@ -32,7 +33,7 @@
 							$categories = $categoryObj->getListOfCategories();
 
 							foreach($categories as $category){
-								echo '<li><a href="?navigate='.$category->category_id.'">'.($category->getName()).'</a></li>';
+								echo '<li><a href="?category='.$category->category_id.'">'.($category->getName()).'</a></li>';
 							}
 						?>
 					</ul>

@@ -22,7 +22,7 @@
             // echo '<i>'.$article->category_id.'</i>';
             echo '<i>'.$article->post_datetime.'</i><br>';
             
-            echo '<a href="user/id?='.$article->author.'">'.($article->author).'</a><br><br>';
+            echo '<a href="user/id?='.$article->user_id.'">'.($article->author).'</a>';
 
             echo '</div>';
         }

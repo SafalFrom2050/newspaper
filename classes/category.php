@@ -13,7 +13,10 @@ class Category extends Database{
 
     public static function withID($category_id){
         $instance = new self();
-        $instance->category_id = $category_id;
+        $category = $instance->getCategoryFromId($category_id);
+
+        $instance->category_id = $category->category_id;
+        $instance->name = $category->name;
         return $instance;
     }
     public static function withName($name){
@@ -35,7 +38,10 @@ class Category extends Database{
     public function createCategory($name){
         $this->name = $name;
 
-        //TODO
+        $sql = 'INSERT INTO `categories` (`name`) VALUES (:name)';
+        $criteria = ['name' => $name];
+
+        $stmp = $this->executeWithCriteria($sql, $criteria);
     }
 
     public function rename($category_id, $name){

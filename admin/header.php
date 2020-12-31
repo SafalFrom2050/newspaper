@@ -5,6 +5,7 @@
 	include ('../classes/user.php');
 	include ('../classes/article.php');
 	include ('../classes/category.php');
+	include ('../classes/post.php');
     include '../utils/auth_check.php';
 
 	$user = new User();
@@ -20,6 +21,7 @@
 	<head>
 		<link rel="stylesheet" href="/styles.css"/>
 		<link rel="stylesheet" href="/style_overrides.css"/>
+		<link rel="stylesheet" href="/style_addons.css"/>
 		<title>Northampton News - Home</title>
 	</head>
 	<body>
@@ -41,7 +43,7 @@
 							$categories = $categoryObj->getListOfCategories();
 
 							foreach($categories as $category){
-								echo '<li><a href="?navigate='.$category->category_id.'">'.($category->getName()).'</a></li>';
+								echo '<li><a href="/?category='.$category->category_id.'">'.($category->getName()).'</a></li>';
 							}
 						?>
 					</ul>
@@ -62,7 +64,7 @@
 
 			<h3>Category</h3>
 			<ul>
-				<li><a href="#">Edit Categories</a></li>
+				<li><a href="categories.php">Manage Categories</a></li>
 			</ul>
 
 			<h3>Comments</h3>

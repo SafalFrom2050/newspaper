@@ -4,12 +4,14 @@
 	include ('../classes/article.php');
 	include ('../classes/category.php');
 	include ('../classes/comment.php');
+	include ('../classes/share.php');
     include ('../utils/auth_check.php');
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" href="/fontawesome/css/all.css">
 		<link rel="stylesheet" href="/styles.css"/>
 		<link rel="stylesheet" href="/style_overrides.css">
 		<link rel="stylesheet" href="/style_addons.css">

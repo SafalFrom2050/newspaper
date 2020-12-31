@@ -4,6 +4,61 @@ article > .cover-img {
   object-fit: cover;
 }
 
+article > h2 {
+  border-bottom: solid #444 0.5rem;
+  padding-bottom: 1rem;
+  padding-right: 3rem;
+  width: fit-content;
+}
+article .nested {
+  border-left: solid #888888 0.4rem;
+  padding: 1rem;
+  margin-bottom: 3rem;
+}
+article > .nested > p {
+  height: 5em;
+  overflow: hidden;
+}
+article #view-count {
+  float: right;
+  font-size: small;
+  font-weight: bold;
+  padding-right: 0.5rem;
+  border-right: solid #888 0.4rem;
+}
+
+article .social-buttons a {
+  text-decoration: none;
+  color: #888;
+  margin-left: 8px;
+  font-size: x-large;
+}
+
+article .social-buttons a:hover {
+  color: #444;
+}
+
+article .social-buttons {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  border-left: #888 solid 0.4rem;
+  padding-left: 1rem;
+}
+
+nav ul li .search-box {
+  display: flex;
+}
+nav ul li .search-box input[type="submit"] {
+  width: fit-content;
+  margin-left: 4px;
+}
+nav ul li .search-box input[type="text"] {
+  width: 80%;
+  margin-left: 0;
+}
+
 comments {
   display: flex;
   flex-direction: column;
@@ -58,4 +113,27 @@ comments comment-item a {
 }
 comments comment-item p {
   margin-left: 2rem;
+}
+.category-list {
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: #888888 solid 2px;
+}
+.edit-category-list-item,
+.post-preview {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 1px dashed #666;
+}
+
+.add-category {
+  display: flex;
+  justify-content: space-between;
+  border: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.add-category > input[type="submit"] {
+  width: fit-content;
 }
