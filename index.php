@@ -1,6 +1,7 @@
 <?php
     session_start();
     include 'header.php';
+    include 'utils/auth_check.php';
 ?>
 
 <main>

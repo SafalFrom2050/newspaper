@@ -17,7 +17,7 @@ if(isset($_POST['username'])){
         
         header("Location: /");
         die();
-    }else{;
+    }else{
         echo '<h1>Check your email/password...</h1>';
         echo '<a href=login.php>Try Again</a>';
     }

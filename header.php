@@ -2,16 +2,15 @@
 	include ('classes/database.php');
 	include ('classes/user.php');
 	include ('classes/category.php');
-	include ('classes/article.php');
-    include 'utils/auth_check.php';
+	include ('classes/article.php')
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="styles.css"/>
-		<link rel="stylesheet" href="style_overrides.css">
-		<link rel="stylesheet" href="style_addons.css">
+		<link rel="stylesheet" href="/styles.css"/>
+		<link rel="stylesheet" href="/style_overrides.css">
+		<link rel="stylesheet" href="/style_addons.css">
 		<title>Northampton News - Home</title>
 	</head>
 	<body>
@@ -41,4 +40,4 @@
 				<li><a href="contact.php">Contact us</a></li>
 			</ul>
 		</nav>
-		<img src="images/banners/randombanner.php" />
+		<img src="/images/banners/randombanner.php" />
