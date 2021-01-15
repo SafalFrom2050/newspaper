@@ -1,0 +1,77 @@
+.account-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account-details > .info li {
+  display: flex;
+  flex-direction: row;
+}
+
+.account-details > .info .left,
+.account-details > .info .right {
+  margin: 8px;
+
+  margin-right: 8px;
+}
+
+.account-details > .info .left {
+  width: 40%;
+  font-weight: bold;
+  font-size: large;
+}
+
+.account-details > .info .right {
+  width: 50%;
+  font-size: large;
+  display: flex;
+}
+.account-details > .info .right > a {
+  text-decoration: none;
+  color: #444;
+  font-size: small;
+  border: solid #444 0.1rem;
+  border-radius: 9999px;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+.account-details > .info .right > a:hover {
+  background: #444;
+  color: white;
+}
+
+.account-details > .info .right > form {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: flex;
+}
+.account-details > .info .right > .password-change {
+  flex-direction: column;
+}
+
+.account-details > .info .right > form > input {
+  margin: 2px;
+  margin-left: 4px;
+  padding: 2px;
+  width: auto;
+}
+
+.account-details ul {
+  margin: auto;
+  display: block;
+  list-style-type: none;
+}
+
+.error-msg,
+.success-msg {
+  color: #ff0055;
+  margin: 1rem;
+}
+
+.success-msg {
+  color: green;
+}

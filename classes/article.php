@@ -1,6 +1,12 @@
 <?php
 
-class Article extends Database{
+class Article extends Database
+{
+
+    const SORT_DEFAULT = 1, SORT_BY_POPULARITY = 0,
+        SORT_BY_LATEST = 1, SORT_BY_OLDEST = 2,
+        SORT_BY_LONGEST = 3, SORT_BY_SHORTEST = 4;
+
     public $article_id;
     public $title;
     public $post_datetime;
@@ -15,15 +21,16 @@ class Article extends Database{
     public $image_url;
     public $views;
 
-    public function __construct() {
-        
+    public function __construct()
+    {
     }
 
-    public static function fromParameters($title, $user_id, $body, $image_url, $category_id, $is_published){
+    public static function fromParameters($title, $user_id, $body, $image_url, $category_id, $is_published)
+    {
         $instance = new self();
 
         $instance->title = $title;
-        
+
         $instance->user_id = $user_id;
 
         // NOTE: current user_name is the author
@@ -31,7 +38,7 @@ class Article extends Database{
         $user_name = $user->name;
 
         $instance->author = $user_name;
-        
+
         $instance->body = $body;
         $instance->image_url = $image_url;
         $instance->category_id = $category_id;
@@ -40,9 +47,10 @@ class Article extends Database{
         return $instance;
     }
 
-    public static function fromDB($row){
+    public static function fromDB($row)
+    {
         $instance = new self();
-                                                 
+
         $instance->article_id = $row['article_id'];
         $instance->title = $row['title'];
         $instance->post_datetime = $row['post_datetime'];
@@ -57,15 +65,18 @@ class Article extends Database{
         return $instance;
     }
 
-    public function setPublished($is_published){
+    public function setPublished($is_published)
+    {
         $this->is_published = $is_published;
     }
 
-    public function setImage($image_url){
+    public function setImage($image_url)
+    {
         $this->image_url = $image_url;
     }
 
-    public function addViewCount(){
+    public function addViewCount()
+    {
         $sql = 'UPDATE `articles` SET `views` = `views` + 1 WHERE `article_id`=:article_id';
 
         $criteria = ['article_id' => $this->article_id];
@@ -73,51 +84,55 @@ class Article extends Database{
         $stmp = $this->executeWithCriteria($sql, $criteria);
     }
 
-    const SORT_DEFAULT = 0, SORT_BY_LATEST = 1, SORT_BY_OLDEST = 2, SORT_BY_LONGEST = 3, SORT_BY_SHORTEST = 4;
-    public function getListOfArticles($sort_by = self::SORT_DEFAULT, $is_published = -1){
+
+    public function getListOfArticles($sort_by = self::SORT_DEFAULT, $is_published = 1)
+    {
         $sql = 'SELECT * FROM `articles`';
 
-        if($is_published !== -1){
-            $sql .= ' WHERE is_published = '.$is_published;
+        if ($is_published !== -1) {
+            $sql .= ' WHERE is_published = ' . $is_published;
         }
-        
-        if($sort_by==self::SORT_BY_LATEST){
-            $sql .= ' ORDER BY post_datetime DESC';    
-        }else if($sort_by==self::SORT_BY_OLDEST){
-            $sql .= ' ORDER BY post_datetime ASC';
-        }else if($sort_by==self::SORT_BY_LONGEST){
-            $sql .= ' ORDER BY LENGTH(body) DESC';
-        }else if($sort_by==self::SORT_BY_SHORTEST){
-            $sql .= ' ORDER BY LENGTH(body) ASC';
-        }else{
+
+        if ($sort_by == self::SORT_BY_POPULARITY) {
             $sql .= ' ORDER BY views DESC';
+        } else if ($sort_by == self::SORT_BY_OLDEST) {
+            $sql .= ' ORDER BY post_datetime ASC';
+        } else if ($sort_by == self::SORT_BY_LONGEST) {
+            $sql .= ' ORDER BY LENGTH(body) DESC';
+        } else if ($sort_by == self::SORT_BY_SHORTEST) {
+            $sql .= ' ORDER BY LENGTH(body) ASC';
+        } else {
+            $sql .= ' ORDER BY post_datetime DESC';
         }
-        
+
         $stmp = $this->executeSql($sql);
-    
+
         $articles = array();
-        foreach($stmp as $row){
+        foreach ($stmp as $row) {
             $article = Article::fromDB($row);
             $articles[] = $article;
         }
         return $articles;
     }
 
-    public function getListFromCategory($category_id, $sort_by = self::SORT_DEFAULT, $is_published = -1){
+    public function getListFromCategory($category_id, $sort_by = self::SORT_DEFAULT, $is_published = 1)
+    {
         $sql = 'SELECT * FROM `articles` WHERE `category_id`=:category_id';
 
-        if($is_published !== -1){
-            $sql .= ' AND is_published = '.$is_published;
+        if ($is_published !== -1) {
+            $sql .= ' AND is_published = ' . $is_published;
         }
 
-        if($sort_by==self::SORT_BY_LATEST){
-            $sql .= ' ORDER BY post_datetime DESC';    
-        }else if($sort_by==self::SORT_BY_OLDEST){
+        if ($sort_by == self::SORT_BY_POPULARITY) {
+            $sql .= ' ORDER BY views DESC';
+        } else if ($sort_by == self::SORT_BY_OLDEST) {
             $sql .= ' ORDER BY post_datetime ASC';
-        }else if($sort_by==self::SORT_BY_LONGEST){
+        } else if ($sort_by == self::SORT_BY_LONGEST) {
             $sql .= ' ORDER BY LENGTH(body) DESC';
-        }else if($sort_by==self::SORT_BY_SHORTEST){
+        } else if ($sort_by == self::SORT_BY_SHORTEST) {
             $sql .= ' ORDER BY LENGTH(body) ASC';
+        } else {
+            $sql .= ' ORDER BY post_datetime DESC';
         }
 
         $criteria = ['category_id' => $category_id];
@@ -125,14 +140,68 @@ class Article extends Database{
         $stmp = $this->executeWithCriteria($sql, $criteria);
 
         $articles = array();
-        foreach($stmp as $row){
+        foreach ($stmp as $row) {
             $article = Article::fromDB($row);
             $articles[] = $article;
         }
         return $articles;
     }
 
-    public function getArticleFromId($article_id){
+    public function getListFromAuthor($user_id, $is_published = -1)
+    {
+        $sql = 'SELECT * FROM `articles` WHERE `user_id`=:user_id';
+
+        if ($is_published !== -1) {
+            $sql .= ' AND is_published = ' . $is_published;
+        }
+
+        $criteria = ['user_id' => $user_id];
+
+        $stmp = $this->executeWithCriteria($sql, $criteria);
+
+        $articles = array();
+        foreach ($stmp as $row) {
+            $article = Article::fromDB($row);
+            $articles[] = $article;
+        }
+        return $articles;
+    }
+
+    public function searchArticles($query, $sort_by = self::SORT_DEFAULT, $is_published = 1)
+    {
+        $sql = 'SELECT * FROM `articles` WHERE `title` LIKE :query';
+
+        if ($is_published !== -1) {
+            $sql .= ' AND is_published = ' . $is_published;
+        }
+
+        if ($sort_by == self::SORT_BY_POPULARITY) {
+            $sql .= ' ORDER BY views DESC';
+        } else if ($sort_by == self::SORT_BY_OLDEST) {
+            $sql .= ' ORDER BY post_datetime ASC';
+        } else if ($sort_by == self::SORT_BY_LONGEST) {
+            $sql .= ' ORDER BY LENGTH(body) DESC';
+        } else if ($sort_by == self::SORT_BY_SHORTEST) {
+            $sql .= ' ORDER BY LENGTH(body) ASC';
+        } else {
+            $sql .= ' ORDER BY post_datetime DESC';
+        }
+
+        // '%' important to for searching 
+        $criteria = ['query' => $query . '%'];
+
+        $stmp = $this->executeWithCriteria($sql, $criteria);
+
+        $articles = array();
+        foreach ($stmp as $row) {
+            $article = Article::fromDB($row);
+            $articles[] = $article;
+        }
+        return $articles;
+    }
+
+    public function getArticleFromId($article_id)
+    {
         $sql = 'SELECT * FROM `articles` WHERE article_id=:article_id';
 
         $criteria = [
@@ -140,16 +209,17 @@ class Article extends Database{
         ];
 
         $stmp = $this->executeWithCriteria($sql, $criteria);
-    
+
         $row = $stmp->fetch();
         $article = Article::fromDB($row);
 
         return $article;
     }
 
-    public function postArticle($article=null){
+    public function postArticle($article = null)
+    {
 
-        if(is_null($article)){
+        if (is_null($article)) {
             $article = $this;
         }
 
@@ -167,41 +237,75 @@ class Article extends Database{
         ];
 
         $stmp = $this->executeWithCriteria($sql, $criteria);
-        
+
         return $stmp;
     }
 
-    public function editPost($article=null){
+    public function editPost($article = null)
+    {
 
-        if(is_null($article)){
+        if (is_null($article)) {
             $article = $this;
         }
 
         // Validation
-        if(is_null($article->article_id)){
+        if (is_null($article->article_id)) {
             echo 'Cannot Update!!! Looks like you article_ID was not included...';
             return false;
         }
-    
-        $sql = 'UPDATE `articles` SET `title`=:title, `author`=:author, `user_id`=:user_id, 
-                `body`=:body, `image_url`=:image_url, `category_id`=:category_id, `is_published`=:is_published
-                WHERE `article_id`=:article_id';
 
-        $criteria = [
-            'article_id' => $article->article_id,
-            'title' => $article->title,
-            'author' => $article->author,
-            'user_id' => $article->user_id,
-            'body' => $article->body,
-            'image_url' => $article->image_url,
-            'category_id' => $article->category_id,
-            'is_published' => $article->is_published
-        ];
-        
-        $stmp = $this->executeWithCriteria($sql, $criteria);
-        
+        // Check if the image Url is given
+
+        if ($article->image_url == '') {
+            // Without New Image Url
+            $sql = 'UPDATE `articles` SET `title`=:title, `author`=:author, `user_id`=:user_id, 
+            `body`=:body, `category_id`=:category_id, `is_published`=:is_published
+            WHERE `article_id`=:article_id';
+
+            $criteria = [
+                'article_id' => $article->article_id,
+                'title' => $article->title,
+                'author' => $article->author,
+                'user_id' => $article->user_id,
+                'body' => $article->body,
+                'category_id' => $article->category_id,
+                'is_published' => $article->is_published
+            ];
+        } else {
+            // With New Image Url
+            $sql = 'UPDATE `articles` SET `title`=:title, `author`=:author, `user_id`=:user_id, 
+                    `body`=:body, `image_url`=:image_url, `category_id`=:category_id, `is_published`=:is_published
+                    WHERE `article_id`=:article_id';
+
+            $criteria = [
+                'article_id' => $article->article_id,
+                'title' => $article->title,
+                'author' => $article->author,
+                'user_id' => $article->user_id,
+                'body' => $article->body,
+                'image_url' => $article->image_url,
+                'category_id' => $article->category_id,
+                'is_published' => $article->is_published
+            ];
+        }
+        $this->executeWithCriteria($sql, $criteria);
+
         return true;
     }
-}
 
-?>
+    public function deleteArticle($article = null)
+    {
+
+        if (is_null($article)) {
+            $article = $this;
+        }
+
+        $sql = 'DELETE FROM `articles` WHERE article_id=:article_id';
+
+        $criteria = [
+            'article_id' => $article->article_id
+        ];
+
+        $this->executeWithCriteria($sql, $criteria);
+    }
+}

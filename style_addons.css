@@ -1,6 +1,7 @@
 article > .cover-img {
   height: 500px;
   width: 100%;
+  margin-bottom: 2rem;
   object-fit: cover;
 }
 
@@ -70,7 +71,6 @@ comments form {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding-top: 0;
 }
 
@@ -94,7 +94,7 @@ comments form #comment_text {
   width: 90%;
 }
 
-comments comment-item {
+comment-item {
   margin-top: 3rem;
   display: flex;
   flex-direction: column;
@@ -104,29 +104,64 @@ comments comment-item {
 
   padding: 1rem;
 }
+comments .reply-comment {
+  margin-top: 1rem;
+  border-left: solid #aaa 10px;
+  margin-left: 4rem;
+}
+comments .reply-comment form {
+  margin-top: 0;
+  border: none;
+}
 
-comments comment-item a {
+comment-item a {
   width: fit-content;
   text-decoration: none;
   color: #444;
   margin-bottom: 1rem;
 }
-comments comment-item p {
+comment-item .reply-btn {
+  font-size: small;
+  margin-left: auto;
+  font-size: small;
+  font-weight: bold;
+  padding-right: 0.5rem;
+  border-right: solid #888 0.4rem;
+}
+comment-item p {
   margin-left: 2rem;
 }
-.category-list {
+
+comment-item form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+comment-item form input {
+  font-size: small;
+}
+
+.category-list,
+.users-list {
   margin-bottom: 3rem;
   padding-bottom: 3rem;
   border-bottom: #888888 solid 2px;
 }
 .edit-category-list-item,
+.comments-moderation-list-item,
+.accounts-list-item,
 .post-preview {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   border-top: 1px dashed #666;
 }
 
-.add-category {
+.accounts-list-item > h3 > form > input[type="submit"] {
+  clear: unset;
+}
+
+.add-category,
+.edit-category {
   display: flex;
   justify-content: space-between;
   border: none;
@@ -134,7 +169,8 @@ comments comment-item p {
   padding-top: 0;
 }
 
-.add-category > input[type="submit"] {
+.add-category > input[type="submit"],
+.edit-category > input[type="submit"] {
   width: fit-content;
 }
 
@@ -149,4 +185,36 @@ comments comment-item p {
 .signup-form > form,
 .login-form > form {
   margin-top: 0;
+}
+
+.no-border {
+  border: none;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.form-centered > input {
+  margin: 0;
+}
+
+.button-padding {
+  padding: 10px;
+}
+
+.with-page-margin {
+  padding: 2em;
+}
+
+.error-text {
+  color: tomato;
+}
+
+.success-text {
+  color: green;
 }

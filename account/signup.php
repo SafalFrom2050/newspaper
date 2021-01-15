@@ -9,10 +9,10 @@
 ?>
 
 <main>
-
+    <div class="signup-form">
 <?php
     $signup_template = '
-            <div class="signup-form">
+            
                 <h2>Signup</h2>
                 <form method="POST">
 
@@ -29,24 +29,23 @@
                 <input type="email" name="email">
 
                 <input type="submit" value="Signup">
-
                 </form>
-            </div>
     ';
 
     if(isset($_POST['firstname']) && isset($_POST['lastname']) &&
         isset($_POST['username']) && isset($_POST['email'])){
 
 
+        // Removing whitespaces before start and end of string
         $firstname = trim($_POST['firstname']);
         $lastname = trim($_POST['lastname']);
 
-        $email = trim($_POST['email']);
-        $username = trim($_POST['username']);
+        // Storing username and emails in all-lowercase
+        $email = strtolower(trim($_POST['email']));
+        $username = strtolower(trim($_POST['username']));
 
         $name = $firstname.' '.$lastname;
 
-            
         $error = false;
 
         $verify_firstname = verifyName($firstname);
@@ -56,32 +55,30 @@
         }
 
         $verify_lastname = verifyName($lastname);
-        if($verify_lastname!==true){
+        if($verify_lastname!==true && !$error){
             echo createMsg($verify_lastname);
             $error = true;
         }
 
         $verify_username = verifyUsername($username);
-        if($verify_username!==true){
+        if($verify_username!==true && !$error){
             echo createMsg($verify_username);
             $error = true;
         }
 
         $verify_email = verifyEmail($email);
-        if($verify_email!==true){
+        if($verify_email!==true && !$error){
             echo createMsg($verify_email);
             $error = true;
         }
 
         $user = new User();
-        
-
 
         if(!$error){
             // Duplicate Email and Username Validation
             if(!$user->getUserFromEmail($email)){            
                 $generated_password = $user->signUp($username, $name, $email);
-                echo createSuccessMsg('Account created!<br>Please login with your username and this randomly created <b>password:</b> '.$generated_password);
+                echo createSuccessMsg('Account created!<br><br>Please login with your username and this randomly created password: <u>'.$generated_password.'</u>');
             }else{
                 echo createMsg('Email already exists!');
             }
@@ -131,11 +128,27 @@
     }
     function createSuccessMsg($msg){
         $part_1 = $msg;
-        $part_2 = '<br><a href="login.php">Login</a>';
+        $part_2 = '<br><br><br> <b>Please Note:</b> 
+                We cannot guarantee 100% security for the data you provide at the moment because 
+                this website is still in its early development phase.
+                <br> Make sure you change your password as soon as you login.';
         return $part_1.$part_2;
     }
 
 ?>
+    </div>
+    <div class="login-form">
+        <?php
+            if(isset($error) && !$error){
+                echo '<h2>Start by loggin in...</h2>';
+            }else{
+                echo '<h2>Already have an account?</h2>';
+            }
+        ?>
+
+        <a href="login.php"><button class="button-padding">Login</button></a>
+
+    </div>
 </main>
 <?php
     include '../footer.php';

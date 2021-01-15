@@ -33,8 +33,20 @@ form input[type="checkbox"] {
   width: 1.5rem;
 }
 
-h2 > a,
-h3 > a {
+h3 form,
+h3 input {
+  all: unset;
+}
+
+h3 input[type="submit"] {
+  width: unset;
+  margin: unset;
+  cursor: pointer;
+}
+
+h2 a,
+h3 a,
+h3 input {
   text-decoration: none;
   color: #444;
   font-size: small;
@@ -44,7 +56,8 @@ h3 > a {
   margin-right: 12px;
   vertical-align: middle;
 }
-h3 > a {
+h3 a,
+h3 input {
   margin-left: 12px;
   font-size: x-small;
   border: none;
@@ -52,7 +65,8 @@ h3 > a {
 }
 
 h2 a:hover,
-h3 a:hover {
+h3 a:hover,
+h3 input:hover {
   background: #444;
   color: white;
 }
