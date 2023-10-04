@@ -4,14 +4,18 @@ include 'header.php';
 
 <?php
 
+// check if delete_comment is set
 if (isset($_POST['delete_comment'])) {
     $commentObj = new Comment();
+
+    // delete comment
     $commentObj->delete($_POST['select_comment_id']);
 }
 
 ?>
 
 <article>
+    <!-- Title with back button -->
     <h2>
         <a href="/admin">Back</a>
         Comments | Recent
@@ -20,9 +24,13 @@ if (isset($_POST['delete_comment'])) {
     <div>
         <?php
         $commentObj = new Comment();
+        // get list of all approved
         $comments = $commentObj->getAllComments(1);     // only get list of approved comments
 
+        // loop through all
         foreach ($comments as $comment) {
+
+            // show each with an option to delete
             echo '<div class="comments-moderation-list-item">';
 
             echo ' 

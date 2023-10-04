@@ -3,13 +3,16 @@
 class CommentReply extends Comment
 {
 
+    // function to add new reply type comment in database
     public function postReply($comment_id, $comment = null)
     {
+        // use self as $commment if parameter is null
         if (is_null($comment)) {
             $comment = $this;
         }
 
 
+        // sql insert statement
         $sql = 'INSERT INTO `comments`(`comment_text`, `user_id`, `is_approved`, `article_id`, `reply_to`)
         VALUES (:comment_text, :user_id, :is_approved, :article_id, :reply_to)';
 
@@ -26,6 +29,7 @@ class CommentReply extends Comment
         return $stmp;
     }
 
+    // get list of replies for given comment id
     public function getReplies($comment_id)
     {
 

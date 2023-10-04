@@ -12,6 +12,7 @@ class Category extends Database
     {
     }
 
+    // static object instance creators
     public static function withID($category_id)
     {
         $instance = new self();
@@ -40,6 +41,7 @@ class Category extends Database
         return $this->name;
     }
 
+    // function to create new category in database
     public function createCategory($name)
     {
         $this->name = $name;
@@ -47,9 +49,10 @@ class Category extends Database
         $sql = 'INSERT INTO `categories` (`name`) VALUES (:name)';
         $criteria = ['name' => $name];
 
-        $stmp = $this->executeWithCriteria($sql, $criteria);
+        $this->executeWithCriteria($sql, $criteria);
     }
 
+    // function to rename the category in database
     public function rename($new_name)
     {
         $this->name = $new_name;
@@ -64,9 +67,9 @@ class Category extends Database
         $this->executeWithCriteria($sql, $criteria);
     }
 
+    // function to get if of this category
     public function getId()
     {
-
         $sql = 'SELECT * FROM `categories` WHERE name=:name';
 
         $criteria = ['name' => $this->name];
@@ -78,6 +81,7 @@ class Category extends Database
         return $category_id['category_id'];
     }
 
+    // function to get object array list of all categories
     public function getListOfCategories()
     {
 
@@ -94,6 +98,7 @@ class Category extends Database
         return $categories;
     }
 
+    // get an article from given id
     public function getCategoryFromId($category_id)
     {
 
@@ -111,6 +116,7 @@ class Category extends Database
         return $category;
     }
 
+    // function to delete category from database
     public function deleteCategory($category_id = null)
     {
 

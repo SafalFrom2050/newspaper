@@ -1,13 +1,15 @@
 <?php
-    session_start();
-    include '../header.php';
+session_start();
+include '../header.php';
 
-    if(User::isLoggedIn()){
-        header("Location: /");
-        die();
-    }
+// If the user is already logged in, return to homepage
+if (User::isLoggedIn()) {
+    header("Location: /");
+    die();
+}
 ?>
 
+<!-- Create login page -->
 <main>
     <div class="login-form">
         <h2>Login</h2>
@@ -23,6 +25,8 @@
         </form>
     </div>
     <br><br>
+
+    <!-- Link to Create Account -->
     <div class="signup-form">
         <h2>No Account?</h2>
         <a href="signup.php"><button class="button-padding">Create Account</button></a>
@@ -30,5 +34,5 @@
 
 </main>
 <?php
-    include '../footer.php';
+include '../footer.php';
 ?>

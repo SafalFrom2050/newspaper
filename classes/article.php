@@ -1,7 +1,10 @@
+<!-- This php class wraps the database operations of articles -->
 <?php
 
 class Article extends Database
 {
+
+    //Attributes of the class
 
     const SORT_DEFAULT = 1, SORT_BY_POPULARITY = 0,
         SORT_BY_LATEST = 1, SORT_BY_OLDEST = 2,
@@ -25,6 +28,7 @@ class Article extends Database
     {
     }
 
+    // static instance creator
     public static function fromParameters($title, $user_id, $body, $image_url, $category_id, $is_published)
     {
         $instance = new self();
@@ -47,6 +51,7 @@ class Article extends Database
         return $instance;
     }
 
+    // static instance creator (convert associative array to object)
     public static function fromDB($row)
     {
         $instance = new self();
@@ -65,6 +70,7 @@ class Article extends Database
         return $instance;
     }
 
+    //setters
     public function setPublished($is_published)
     {
         $this->is_published = $is_published;
@@ -75,6 +81,7 @@ class Article extends Database
         $this->image_url = $image_url;
     }
 
+    // Add view count of article
     public function addViewCount()
     {
         $sql = 'UPDATE `articles` SET `views` = `views` + 1 WHERE `article_id`=:article_id';
@@ -84,15 +91,17 @@ class Article extends Database
         $stmp = $this->executeWithCriteria($sql, $criteria);
     }
 
-
+    // return list of array of articles
     public function getListOfArticles($sort_by = self::SORT_DEFAULT, $is_published = 1)
     {
         $sql = 'SELECT * FROM `articles`';
 
+        // Set constraint, by default only published articles are to be returned
         if ($is_published !== -1) {
             $sql .= ' WHERE is_published = ' . $is_published;
         }
 
+        // Sorting constraint, set how to sort article list
         if ($sort_by == self::SORT_BY_POPULARITY) {
             $sql .= ' ORDER BY views DESC';
         } else if ($sort_by == self::SORT_BY_OLDEST) {
@@ -107,6 +116,7 @@ class Article extends Database
 
         $stmp = $this->executeSql($sql);
 
+        // Create and return array of objects
         $articles = array();
         foreach ($stmp as $row) {
             $article = Article::fromDB($row);
@@ -115,8 +125,10 @@ class Article extends Database
         return $articles;
     }
 
+    // function to get list of articles from certain category
     public function getListFromCategory($category_id, $sort_by = self::SORT_DEFAULT, $is_published = 1)
     {
+        // set category id as constraint
         $sql = 'SELECT * FROM `articles` WHERE `category_id`=:category_id';
 
         if ($is_published !== -1) {
@@ -144,9 +156,11 @@ class Article extends Database
             $article = Article::fromDB($row);
             $articles[] = $article;
         }
+        // return as array of objects
         return $articles;
     }
 
+    // function to get list of articles from certain author
     public function getListFromAuthor($user_id, $is_published = -1)
     {
         $sql = 'SELECT * FROM `articles` WHERE `user_id`=:user_id';
@@ -167,6 +181,7 @@ class Article extends Database
         return $articles;
     }
 
+    // function to get list of articles matching certain keywords
     public function searchArticles($query, $sort_by = self::SORT_DEFAULT, $is_published = 1)
     {
         $sql = 'SELECT * FROM `articles` WHERE `title` LIKE :query';
@@ -200,6 +215,7 @@ class Article extends Database
         return $articles;
     }
 
+    // return an article matching certain article_id
     public function getArticleFromId($article_id)
     {
         $sql = 'SELECT * FROM `articles` WHERE article_id=:article_id';
@@ -216,13 +232,15 @@ class Article extends Database
         return $article;
     }
 
+    // Function to add article to database
     public function postArticle($article = null)
     {
-
+        // if the paramater if null, use the 'self' object 
         if (is_null($article)) {
             $article = $this;
         }
 
+        // Sql insert statement
         $sql = 'INSERT INTO `articles`(`title`, `author`, `user_id`, `body`, `image_url`, `category_id`, `is_published`)
         VALUES (:title, :author, :user_id, :body, :image_url, :category_id, :is_published)';
 
@@ -238,9 +256,11 @@ class Article extends Database
 
         $stmp = $this->executeWithCriteria($sql, $criteria);
 
+        // return status
         return $stmp;
     }
 
+    // Function to edit article to database
     public function editPost($article = null)
     {
 
@@ -293,6 +313,7 @@ class Article extends Database
         return true;
     }
 
+    // Function to delete article from database
     public function deleteArticle($article = null)
     {
 

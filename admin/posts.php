@@ -4,16 +4,19 @@ include 'header.php';
 
 <?php
 
+// check if delete_article_id is set
 if (isset($_POST['delete_article_id'])) {
     $articleObj = new Article();
     $articleObj = $articleObj->getArticleFromId($_POST['delete_article_id']);
 
+    // delete article of given id
     $articleObj->deleteArticle();
 }
 
 ?>
 
 <article>
+    <!-- Title with back button -->
     <h2>
         <a href="/admin">Back</a>
         All Posts
@@ -22,9 +25,14 @@ if (isset($_POST['delete_article_id'])) {
     <?php
     $articleObj = new Article();
     $articles = array();
+
+    // list of articles
     $articles = $articleObj->getListOfArticles(Article::SORT_DEFAULT, -1);
 
+    // loop through all
     foreach ($articles as $article) {
+
+        // show details of article
         echo '<div class = "post-preview">';
 
         echo '<h3>' . $article->title .
@@ -36,7 +44,6 @@ if (isset($_POST['delete_article_id'])) {
             <a href="/admin/edit-post.php?article_id=' . $article->article_id . '">Edit</a>
               </h3>';
 
-        // echo '<i>'.$article->category_id.'</i>';
         echo '<i>' . $article->post_datetime . '</i><br>';
 
         echo '<a href="/user?id=' . $article->user_id . '">' . ($article->author) . '</a>';

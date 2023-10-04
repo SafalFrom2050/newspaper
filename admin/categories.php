@@ -3,20 +3,25 @@ include 'header.php';
 ?>
 
 <?php
+// check if the category is set
 if (isset($_POST['category'])) {
     $categoryObj = new Category();
     $categoryObj->createCategory($_POST['category']);
 }
 
+// check if the delete_category_id is set
 if (isset($_POST['delete_category_id'])) {
     $categoryObj = Category::withID($_POST['delete_category_id']);
 
+    // detete the category
     $categoryObj->deleteCategory();
 }
 
+// check is edit_category_id is set
 if (isset($_POST['edit_category_id'])) {
     $categoryObj = Category::withID($_POST['edit_category_id']);
 
+    // rename category
     $categoryObj->rename($_POST['edit_category_name']);
 
     // Refresh the page by removing GET parameters
@@ -27,6 +32,7 @@ if (isset($_POST['edit_category_id'])) {
 ?>
 
 <article>
+    <!-- Title with back button -->
     <h2>
         <a href="/admin">Back</a>
         Manage Categories
@@ -36,8 +42,11 @@ if (isset($_POST['edit_category_id'])) {
         <?php
         $categoryObj = new Category();
         $categories = array();
+
+        // Get list of all categories
         $categories = $categoryObj->getListOfCategories();
 
+        // Loop through all
         foreach ($categories as $category) {
             echo '<div class="edit-category-list-item">';
 

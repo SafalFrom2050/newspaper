@@ -24,7 +24,7 @@ if (!$isAdmin) {
 	<link rel="stylesheet" href="/styles.css" />
 	<link rel="stylesheet" href="/style_overrides.css" />
 	<link rel="stylesheet" href="/style_addons.css" />
-	<title>Northampton News - Home</title>
+	<title>Admin - Northampton News</title>
 </head>
 
 <body>
@@ -40,13 +40,18 @@ if (!$isAdmin) {
 			<li><a href="#">Select Category</a>
 				<ul>
 					<br>
+					<!-- Get list of categories from database -->
 					<?php
+					// New category object
 					$categoryObj = new Category();
 					$categories = array();
+
+					// retrieve array of category objects
 					$categories = $categoryObj->getListOfCategories();
 
 					foreach ($categories as $category) {
-						echo '<li><a href="/?category=' . $category->category_id . '">' . ($category->getName()) . '</a></li>';
+						// Display as list one by one
+						echo '<li><a href="?category=' . $category->category_id . '">' . ($category->getName()) . '</a></li>';
 					}
 					?>
 				</ul>

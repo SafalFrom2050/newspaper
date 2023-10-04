@@ -1,7 +1,9 @@
 <?php
-    session_start();
-    session_destroy();
+session_start();
 
-    header("Location: login.php");
-    die();
-?>
+// destroy session, delete variables and logout
+session_destroy();
+
+// return to login page
+header("Location: login.php");
+die();

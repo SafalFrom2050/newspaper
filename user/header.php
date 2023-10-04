@@ -16,7 +16,7 @@ include('../classes/share.php');
 	<link rel="stylesheet" href="/styles.css" />
 	<link rel="stylesheet" href="/style_overrides.css">
 	<link rel="stylesheet" href="/style_addons.css">
-	<title>Northampton News - Article</title>
+	<title>User - Northampton News</title>
 </head>
 
 <body>
@@ -38,7 +38,7 @@ include('../classes/share.php');
 					$categories = $categoryObj->getListOfCategories();
 
 					foreach ($categories as $category) {
-						echo '<li><a href="?navigate=' . $category->category_id . '">' . ($category->getName()) . '</a></li>';
+						echo '<li><a href="?category=' . $category->category_id . '">' . ($category->getName()) . '</a></li>';
 					}
 					?>
 				</ul>

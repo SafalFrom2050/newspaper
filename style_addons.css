@@ -190,6 +190,9 @@ comment-item form input {
 .no-border {
   border: none;
 }
+.bottom-border{
+  border-bottom:solid #888 2px;
+}
 
 .no-margin {
   margin: 0;
@@ -217,4 +220,7 @@ comment-item form input {
 
 .success-text {
   color: green;
+}
+.center-text{
+  text-align:center;
 }

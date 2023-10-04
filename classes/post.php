@@ -207,4 +207,31 @@ class Post extends Database
             return '';
         }
     }
+
+
+    // Notify users when new article is posted
+    public function sendEmailNotification($storyAuthor, $storyTitle, $storyId)
+    {
+
+        // Generate article url from story id
+        $websiteUrl = '';         // TODO when live
+        $storyUrl = $websiteUrl . '/article/?id=' . $storyId;
+
+        // Email template
+        $to = 'safalfrom2050@gmail.com';
+        $subject = 'A new story has just been posted to Northampton News!';
+
+        // Message body of email
+        $message = '<h3>Northampton News - ' . $storyTitle . '<h3>'
+            . '<h5>by ' . $storyAuthor . '</h5>'
+            . '<a href="' . $storyUrl . '">View Article</a>';                             // Story Url goes here
+
+        // Header of email 
+        $header = 'From:test@testsite.com \r\n'
+            . 'MIME-Version: 1.0\r\n'
+            . 'Content-type: text/html\r\n';
+
+        // Finally send email
+        $sentEmail = mail($to, $subject, $message, $header);
+    }
 }

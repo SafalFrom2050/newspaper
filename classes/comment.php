@@ -23,6 +23,7 @@ class Comment extends Database
     {
     }
 
+    // static object instance creator
     public static function fromDB($row)
     {
         $instance = new self();
@@ -43,7 +44,6 @@ class Comment extends Database
 
         return $instance;
     }
-
     public static function createComment($comment_text, $article_id)
     {
         $instance = new self();
@@ -64,9 +64,10 @@ class Comment extends Database
         return $instance;
     }
 
+    // function to post a new comment
     public function postComment($comment = null)
     {
-
+        // set as self if comment parameter is null
         if (is_null($comment)) {
             $comment = $this;
         }
@@ -87,6 +88,7 @@ class Comment extends Database
         return $stmp;
     }
 
+    // get all comments for selected article
     public function getCommentsForId($article_id = null)
     {
 
@@ -117,6 +119,7 @@ class Comment extends Database
         return $comments;
     }
 
+    // function to get list of all comments made by given user
     public function getCommentsFromUser($user_id = null)
     {
 
@@ -212,6 +215,7 @@ class Comment extends Database
         $this->executeWithCriteria($sql, $criteria);
     }
 
+    // For front end: reply comment html form template
     public function createWriteReplyTemplate()
     {
         $reply_comment_template = '

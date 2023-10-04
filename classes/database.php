@@ -1,26 +1,33 @@
+<!-- This is the parent class of all classes communiating to database -->
 <?php
 
-class Database{
+class Database
+{
 
-    public function __construct() {
-        
+    public function __construct()
+    {
     }
 
-    protected function createDatabaseConnection(){
-        $server = 'localhost'; 
-        $username = 'root'; 
-        $password = ''; 
+    // Function to handle database connection
+    protected function createDatabaseConnection()
+    {
+        // Add in details here
+        $server = 'localhost';
+        $username = 'root';
+        $password = '';
 
-        $schema ='newspaper_db';
+        $schema = 'newspaper_db';
 
-        $pdo = new PDO('mysql:dbname='.$schema.';host='.$server , $username, $password, [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ]);
-    
+        $pdo = new PDO('mysql:dbname=' . $schema . ';host=' . $server, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
         return $pdo;
     }
 
-    protected function executeWithCriteria($sql, $criteria){
+    // wrapper function to execute sql with criteria
+    protected function executeWithCriteria($sql, $criteria)
+    {
         $pdo = $this->createDatabaseConnection();
-    
+
         $stmp = $pdo->prepare($sql);
 
         $stmp->execute($criteria);
@@ -28,7 +35,9 @@ class Database{
         return $stmp;
     }
 
-    protected function executeSql($sql){
+    // wrapper function to execute sql without criteria
+    protected function executeSql($sql)
+    {
         $pdo = $this->createDatabaseConnection();
         $stmp = $pdo->prepare($sql);
 
